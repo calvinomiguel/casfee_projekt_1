@@ -22,38 +22,73 @@
         <![endif]-->
     <main>
         <div class="app-wrapper">
-            <div class="bg-overlay"></div>
+            <div class="bg-overlay hidden"></div>
             <nav class="tab">
                 <ul>
                     <li class="tab-item tab-active">
                         To-do
                     </li>
-                    <li class="tab-item tab-inactive">
+                    <li class="tab-item">
                         Done
                     </li>
                 </ul>
             </nav>
             <div class="fn-bar btn-container">
-             <button class="btn-icon-text mr-auto"><i class="bx bx-filter"></i>Filter</button>   
-             <button type="button" class="btn-primary">Create task</button>    
+                <button class="btn-icon-text mr-auto"><i class="bx bx-filter"></i>Filter</button>
+                <button type="button" class="btn-primary btn-create-todo">Create task</button>
             </div>
-            <div class="item-container">
+            <div class="main-container">
+                <div class="todo-container">
+                    <!-- <div class="todo-item">
+                        <input type="radio" name="1" id="1" value="1">
+                        <div class="todo-item-main-wrapper">
+                            <div class="todo-item-main">
+                                <h4>Title</h4>
+                                <p>Description</p>
+                            </div>
+                            <div class="todo-item-footer">
+                                <div class="todo-priority-tag tag-low mr-2">
+                                    <p>Medium</p>
+                                </div>
+                                <div class="todo-item-due">
+                                    <i class="bx bx-time"></i>
+                                    <p>12. Jan 2023</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>-->
+                </div>
+                <div class="empty-state hidden">
+                    <figure>
+                        <img src="./public/img/empty-state.png" alt="Empty State image">
+                    </figure>
+                    <div class="empty-state-text">
+                        <h4>Seems pretty empty in here</h4>
+                        <p>Life doesn't have to be as boring as it is right now. Create your first task.</p>
+                    </div>
+                    <button type="button" class="btn-primary btn-create-todo w-full mt-4">Create task</button>
+                </div>
                 <div>
 
                 </div>
             </div>
-            <form class="c-form" action="" method="post">
-                <input autocomplete="off" class="c-textfield c-textfield-title" type="text" name="title" id="title" placeholder="Task title...">
+            <form class="c-form hidden" action="" method="post">
+                <input autocomplete="off" class="c-textfield c-textfield-title" type="text" name="title" id="title"
+                    placeholder="Task title...">
                 <input class="c-textfield" style="display:none;" type="date" name="duedate" id="duedate">
-                <textarea autocomplete="off" class="c-textarea" name="description" id="description" placeholder="Description"></textarea>
+                <textarea autocomplete="off" class="c-textarea" name="description" id="description"
+                    placeholder="Description"></textarea>
                 <div class="btn-container">
-                <button type="button" class="btn-icon-text mr-auto"><i class="bx bx-calendar"></i>Due date</button><button type="button" class="btn-basic">Cancel</button> <button type="submit" class="btn-primary">Create task</button>
+                    <button type="button" class="btn-icon-text mr-auto"><i class="bx bx-calendar"></i>Due
+                        date</button><button type="button" class="btn-basic btn-cancel-todo">Cancel</button> <button type="submit"
+                        class="btn-primary btn-create-todo">Create task</button>
 
                 </div>
             </form>
         </div>
     </main>
-    <script src="" async defer></script>
+    <script src="./public/js/app.js" async></script>
 </body>
 
 </html>
