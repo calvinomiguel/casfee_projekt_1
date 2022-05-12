@@ -22,6 +22,7 @@
         <![endif]-->
     <main>
         <div class="app-wrapper">
+            <div class="bg-overlay"></div>
             <nav class="tab">
                 <ul>
                     <li class="tab-item tab-active">
@@ -32,6 +33,15 @@
                     </li>
                 </ul>
             </nav>
+            <div class="fn-bar btn-container">
+             <button class="btn-icon-text mr-auto"><i class="bx bx-filter"></i>Filter</button>   
+             <button type="button" class="btn-primary">Create task</button>    
+            </div>
+            <div class="item-container">
+                <div>
+
+                </div>
+            </div>
             <form class="c-form" action="" method="post">
                 <input autocomplete="off" class="c-textfield c-textfield-title" type="text" name="title" id="title" placeholder="Task title...">
                 <input class="c-textfield" style="display:none;" type="date" name="duedate" id="duedate">
