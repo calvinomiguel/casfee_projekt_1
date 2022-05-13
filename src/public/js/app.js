@@ -42,6 +42,7 @@ let checkTodos = function () {
 checkTodos();
 
 btnCancel.onclick = closeCreateTodo;
+bgOverlay.onclick = closeCreateTodo;
 
 window.onclick = checkTodos;
 
