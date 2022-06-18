@@ -1,30 +1,68 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
+class Model {
+    constructor() {
+        this.todos = [
+            {
+                id: 1,
+                title: "Lorem ipsum",
+                description: "Your description here.",
+                done: false,
+                priority: "medium",
+                duedate: "01.01.2022"
+            }
+        ];
+    }
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Doit</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./public/style/reset.css">
-    <link rel="stylesheet" href="./public/style/style.css">
-    <link rel="stylesheet" href="./public/boxicons/boxicons.min.css">
-</head>
+    //Method to create a todo
+    create(title, description, priority, duedate) {
+        const todo = {
+            id: this.todos.length < 0 ? 1 : this.todos[this.todos.length - 1].id + 1,
+            title: title,
+            description: description,
+            priority: priority,
+            done: false,
+            duedate: duedate
+        }
 
-<body>
-    <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-    <div id="app"></div>
-    <main class="hidden">
-        <div class="app-wrapper">
-            <div class="bg-overlay hidden"></div>
-            <nav class="tab">
+        this.todos.push(todo);
+    }
+
+    //Method to edit a todo
+    edit(id, title, description, priority, duedate) {
+        let index = this.todos.findIndex((todo) => todo.id === id);
+        this.todos[index] = {
+            id: id,
+            title: title,
+            description: description,
+            priority: priority,
+            done: false,
+            duedate: duedate
+        };
+    }
+
+    //Method to delete todo 
+    delete(id) {
+        let index = this.todos.findIndex((todo) => todo.id === id);
+        this.todos.splice(index, 1);
+    }
+
+    complete(id, done) {
+        this.todos.find((todo, index, todos) => {
+            if (todo.id === id) {
+                todos[index].done = true;
+            };
+        });
+    }
+}
+
+class View {
+    constructor() {
+        //Root element
+        this.app = this.getElement("#app");
+        this.main = this.createElement("main");
+        this.main.innerHTML = `
+            <div class="app-wrapper">
+                <div class="bg-overlay hidden"></div>
+                <nav class="tab">
                 <ul>
                     <li class="tab-item tab-active">
                         To-do
@@ -39,8 +77,8 @@
                 <button type="button" class="btn-primary btn-create-todo">Create task</button>
             </div>
             <div class="main-container">
-                <div class="todo-container hidden">
-                    <!-- <div class="todo-item">
+                <div class="todo-container">
+                    <div class="todo-item">
                         <input type="radio" name="1" id="1" value="1">
                         <div class="todo-item-main-wrapper">
                             <div class="todo-item-main">
@@ -58,7 +96,7 @@
                             </div>
                         </div>
 
-                    </div>-->
+                    </div>
                 </div>
                 <div class="todo-container todo-done">
                     <!-- <div class="todo-item">
@@ -92,10 +130,7 @@
                 <button type="button" class="btn-primary btn-create-todo w-full mt-4">Create task</button>
             </div>
             </div>
-            <div>
 
-            </div>
-        </div>
         <form class="c-form hidden" action="" method="post">
             <input autocomplete="off" class="c-textfield c-textfield-title" type="text" name="title" id="title"
                 placeholder="Task title...">
@@ -109,9 +144,43 @@
 
             </div>
         </form>
-        </div>
-    </main>
-    <script src="./public/js/main.js" async></script>
-</body>
+            </div>
+        `;
 
-</html>
+        this.app.append(this.main);
+    }
+
+    createElement(tag, classes, id, attributes) {
+        const elem = document.createElement(tag);
+
+        if (classes)
+            for (let className of classes) {
+                elem.classList.add(className);
+            }
+
+        if (id) elem.setAttribute("id", id);
+
+        if (attributes)
+            for (let attr of attributes) {
+                elem.setAttribute(attr.name, attr.value);
+            }
+
+        return elem;
+    }
+
+    getElement(selector) {
+        const elem = document.querySelector(selector);
+        return elem;
+    }
+}
+
+class Controller {
+    constructor(model, view) {
+        this.model = model
+        this.view = view
+    }
+}
+
+const app = new Controller(new Model(), new View())
+
+app.model.create("Hello world", "Description", "medium", "25. Jan 2025");

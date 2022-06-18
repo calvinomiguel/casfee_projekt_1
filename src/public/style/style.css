@@ -119,6 +119,7 @@ body {
     transition-duration: 360ms;
     transition-timing-function: ease-in-out;
     color: rgb(var(--dark-60));
+    border-bottom: 2px solid transparent;
 }
 
 .tab-item:hover {
@@ -339,7 +340,7 @@ body {
 .todo-item input {
     height: var(--size-5);
     width: var(--size-5);
-    margin-left:var(--size-8);
+    margin-left: var(--size-8);
 }
 
 .todo-item-main-wrapper {
