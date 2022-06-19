@@ -1,28 +1,30 @@
 {
-  "name": "casfee_projekt_1",
+  "name": "doit",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple to do app",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon --ext js,css,html"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/calvinomiguel/casfee_projekt_1.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Calvino",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/calvinomiguel/casfee_projekt_1/issues"
   },
   "homepage": "https://github.com/calvinomiguel/casfee_projekt_1#readme",
   "dependencies": {
-    "nodemon": "^2.0.16",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1"
+    "body-parser": "^1.20.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.0"
   },
-  "type": "module"
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "nodemon": "^2.0.16"
+  }
 }

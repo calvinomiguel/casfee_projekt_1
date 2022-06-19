@@ -1,13 +1,34 @@
-import "dotenv/config";
-import express from "express";
-
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
+let todos = [];
 
-app.get('/', function (req, res) {
-    res.sendFile('/Users/calvinomiguel/Documents/Dev/casfee_projekt_1/src/index.html');
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.set("views", path.join(__dirname, "/src/views"));
+app.set("js", path.join(__dirname, "/src/js"));
+app.set("view engine", "ejs");
+
+app.get('/', (req, res) => {
+    res.render("page", { todos });
+})
+
+app.post("/", function (req, res) {
+    todos.push({
+        title: req.body.title,
+        description: req.body.description,
+        dueDate: req.body.duedate,
+        priority: req.body.priority
+    })
+    console.log(todos);
+    res.redirect("/");
 });
 
 app.listen(port, () => {
-    console.log(`App running on http://localhost:${port}`);
+    console.log(`Example app listening on http://localhost:${port}`);
 });

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Do-it</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="icons/boxicons/boxicons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <main>
+        <div class="app-wrapper">
+            <!-- overlay -->
+            <div class="bg-overlay hidden"></div>
+            <!-- tab -->
+            <nav class="tab">
+                <ul>
+                    <li data-section="open" class="tab-item tab-active">
+                        To-do
+                    </li>
+                    <li data-section="done" class="tab-item">
+                        Done
+                    </li>
+                </ul>
+            </nav>
+            <div class="fn-bar btn-container">
+                <label for="sort" class="form-special-input mr-auto">
+                    <i class="bx bx-filter bx-sm color-dark-60"></i>
+                    <div class="form-special-input-container">
+                        <select name="sort" id="sort" class="mr-auto">
+                            <option disabled selected>Sort</option>
+                            <option value="asc">Newest to oldest</option>
+                            <option value="desc">Oldest to newest</option>
+                        </select>
+                    </div>
+                </label>
+                <button class="btn-basic" id="mode-toggler"> <i class="bx bxs-moon"></i></button>
+                <button id="main-primary" type="button" class="btn-primary btn-create-todo">Create task</button>
+            </div>
+            <div class="main-container">
+                <div id="todo-open" class="todo-container">
+                    <ul>
+                        <!-- todo item -->
+                        <% todos.forEach(function(todo){ %>
+                            <li class="todo-item todo-open">
+                                <input type="checkbox" name="todo" id="todo" class="todo-checkbox">
+                                <div class="todo-item-main-wrapper">
+                                    <div class="todo-item-main">
+                                        <h4 class="todo-title">
+                                            <%= todo.title %>
+                                        </h4>
+                                        <p class="todo-description">
+                                            <%= todo.description %>
+                                        </p>
+                                    </div>
+                                    <div class="todo-item-footer">
+                                        <div class="todo-priority-tag tag-<%= todo.priority %> mr-2">
+                                            <p class="todo-priority">
+                                                <%= todo.priority %>
+                                            </p>
+                                        </div>
+                                        <div class="todo-item-due">
+                                            <i class="bx bx-time"></i>
+                                            <p class="todo-duedate">
+                                                <%= todo.dueDate %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <% }); %>
+                    </ul>
+
+                    <!-- Show empty state if no todos available -->
+                    <%if(todos.length < 1){ %>
+                        <%- include("emptyState") -%>
+                    <%} %>
+                </div>
+
+                <div id="todo-done" class="todo-container hidden">
+                    <ul class="todos-list">
+                        <!-- todo item -->
+                    </ul><!-- empty state -->
+                    <%- include("emptyState") -%>
+                </div>
+                <!-- form -->
+                <form class="c-form hidden" method="post" id="todo-form" action="/">
+                    <input autocomplete="off" class="c-textfield c-textfield-title" type="text" name="title" id="title"
+                        placeholder="Task title...">
+                    <textarea autocomplete="off" class="c-textarea" name="description" id="description"
+                        placeholder="Description"></textarea>
+                    <div class="btn-container">
+                        <label for="duedate" class="form-special-input">
+                            <div class="form-special-input-container">
+                                <span>Due date</span>
+                                <input type="date" id="duedate" name="duedate" />
+                            </div>
+                        </label>
+                        <label for="priority" class="form-special-input mr-auto">
+                            <div class="form-special-input-container">
+                                <span>Priority</span>
+                                <select name="priority" id="priority" class="mr-auto">
+                                    <option disabled selected>Priority</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </label>
+                        <button id="cancel-todo" type="button" class="btn-basic btn-cancel-todo">Cancel</button>
+                        <button type="submit" id="create-todo" class="btn-primary">Create task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="js/todoSections.js" async></script>
+    <script src="js/styleSwitch.js" async></script>
+    <script src="js/todoForm.js" async></script>
+</body>
+
+</html>
