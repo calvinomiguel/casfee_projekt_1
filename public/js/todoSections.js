@@ -3,6 +3,18 @@ let sectionTodosDone = document.querySelector("#todo-done");
 let setcionTodosOpen = document.querySelector("#todo-open");
 let createTodoBtn = document.querySelector("#main-primary");
 
+function hideTodosOpen() {
+    sectionTodosDone.classList.remove("hidden");
+    setcionTodosOpen.classList.add("hidden");
+    createTodoBtn.classList.add("hidden");
+}
+
+function hideTodosDone() {
+    sectionTodosDone.classList.add("hidden");
+    setcionTodosOpen.classList.remove("hidden");
+    createTodoBtn.classList.remove("hidden");
+}
+
 tabItems.forEach(item => {
     item.addEventListener("click", function () {
 
@@ -19,16 +31,26 @@ tabItems.forEach(item => {
 
         //Toggle sections according to attribute of tab item
         if (attr === "done") {
-            sectionTodosDone.classList.remove("hidden");
-            setcionTodosOpen.classList.add("hidden");
-            createTodoBtn.classList.add("hidden");
+            localStorage.setItem("activeTab", attr);
+            hideTodosOpen();
         } else {
-            sectionTodosDone.classList.add("hidden");
-            setcionTodosOpen.classList.remove("hidden");
-            createTodoBtn.classList.remove("hidden");
+            localStorage.setItem("activeTab", attr);
+            hideTodosDone();
         }
-
-
     });
-   
-})
+});
+
+function setActiveTab() {
+    let activeTab = localStorage.getItem("activeTab") === "open" ? "open" : "done";
+
+    if (activeTab === "open") {
+        document.querySelector("[data-section^='open']").classList.add("tab-active");
+        hideTodosDone();
+    } else {
+        document.querySelector("[data-section^='done']").classList.add("tab-active");
+        document.querySelector("[data-section^='open']").classList.remove("tab-active");
+        hideTodosOpen();
+    }
+}
+
+setActiveTab();

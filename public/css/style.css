@@ -8,10 +8,14 @@
     --status-medium: #ff7d4a;
     --status-low: #ffc142;
     --violet-5: 249, 243, 253;
+    --material-violet-100: 195, 143, 255;
+    --material-grey-100: 127, 127, 127;
+    --material-grey-80: 45, 45, 45;
+    --material-grey-50: 53, 53, 53;
     --magenta-100: 255, 19, 115;
     --green-100: 0, 183, 154;
-    --dark-175: 13, 9, 15;
-    --dark-150: 18, 13, 23;
+    --material-dark-100: 18, 18, 18;
+    --material-dark-80: 29, 29, 29;
     --dark-100: 58, 42, 70;
     --dark-60: 137, 127, 144;
     --dark-10: 235, 234, 237;
@@ -93,7 +97,7 @@ body {
 }
 
 .dark {
-    background-color: rgb(var(--dark-175));
+    background-color: rgb(var(--material-dark-100));
 }
 
 main {
@@ -125,9 +129,10 @@ main {
 }
 
 .dark .app-wrapper {
-    background-color: rgba(var(--dark-150));
+    background-color: rgba(var(--material-dark-80));
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgb(var(--violet-dark-150));
+    border: 1px solid transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.50);
 }
 
 .btn-container {
@@ -201,11 +206,12 @@ main {
 }
 
 .dark .tab-item:active {
-    background-color: rgba(var(--dark-175));
+    background-color: rgba(var(--material-dark-100));
 }
 
 .dark .tab-active {
     color: rgb(var(--dark-3));
+    border-bottom: 2px solid rgb(var(--material-violet-100));
 }
 
 .tab-active {
@@ -230,6 +236,11 @@ main {
     -moz-transition: background-color 360ms ease-in-out;
     -ms-transition: background-color 360ms ease-in-out;
     -o-transition: background-color 360ms ease-in-out;
+}
+
+.dark .btn-primary {
+    background-color: rgb(var(--material-violet-100));
+    color: rgb(var(--material-dark-100));
 }
 
 .btn-primary:hover {
@@ -304,7 +315,7 @@ main {
 }
 
 .dark .bg-overlay {
-    background-color: rgba(var(--dark-175), 0.75);
+    background-color: rgba(var(--material-dark-100), 0.75);
 }
 
 .c-form {
@@ -471,21 +482,38 @@ main {
     cursor: pointer;
 }
 
+.dark .todo-item {
+    border-bottom: 1px solid rgb(var(--material-grey-50));
+}
+
 .todo-item:hover {
     background-color: rgb(var(--violet-5));
+}
+
+.dark .todo-item:hover {
+    background-color: rgb(var(--material-grey-50));
 }
 
 .todo-item:active {
     background-color: rgb(var(--violet-10));
 }
 
-.todo-checkbox{
+.dark .todo-item:active {
+    background-color: rgb(var(--material-grey-80));
+}
+
+.todo-checkbox {
     min-width: var(--size-10);
     width: var(--size-10);
 }
 
+.todo-open{
+    padding-right: var(--size-8);
+}
+
 .todo-done {
     cursor: default;
+    padding-left: var(--size-18);
 }
 
 .todo-done:active,
@@ -518,15 +546,23 @@ main {
     margin-bottom: var(--size-2);
 }
 
-.todo-item-main h4 {
+.todo-title {
     font-weight: 600;
     font-size: var(--text-lg);
     color: rgb(var(--dark-100));
 }
 
+.dark .todo-title {
+    color: rgb(var(--white));
+}
+
 .todo-item-main p {
     color: rgb(var(--dark-60));
     font-size: var(--text);
+}
+
+.todo-description {
+    color: rgb(var(--material-grey-100));
 }
 
 .todo-priority-tag {
@@ -555,7 +591,11 @@ main {
 
 .todo-item-due {
     color: rgb(var(--dark-60));
-    gap:var(--size-1);
+    gap: var(--size-1);
+}
+
+.dark .todo-item-due {
+    color: rgb(var(--material-grey-100));
 }
 
 /*UTILITIES*/
