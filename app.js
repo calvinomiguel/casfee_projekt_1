@@ -1,7 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import { fileURLToPath } from "url";
+import {
+    fileURLToPath
+} from "url";
 import Nedb from "nedb";
 
 const __filename = fileURLToPath(
@@ -34,7 +36,11 @@ let todos = [];
 let doneTodos = [];
 
 //Fetch todos
-db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+db.find({
+    completed: false
+}).sort({
+    createdAt: -1
+}).exec(function (err, allTodos) {
     if (err) {
         console.log(err);
     } else {
@@ -43,7 +49,11 @@ db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos)
 });
 
 //Fetch completed todos
-db.find({ completed: true }).sort({createdAt:-1}).exec(function (err, allDoneTodos) {
+db.find({
+    completed: true
+}).sort({
+    createdAt: -1
+}).exec(function (err, allDoneTodos) {
     if (err) {
         console.log(err);
     } else {
@@ -69,7 +79,9 @@ app.post("/update", function (req, res) {
         completed: false,
     };
 
-    db.update({ _id: id }, todo, function (err) {
+    db.update({
+        _id: id
+    }, todo, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -77,13 +89,17 @@ app.post("/update", function (req, res) {
         }
     });
 
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
-            if (err) {
-                console.log(err);
-            } else {
-                todos = [...allTodos];
-                res.redirect("/");
-            }
+    db.find({
+        completed: false
+    }).sort({
+        createdAt: -1
+    }).exec(function (err, allTodos) {
+        if (err) {
+            console.log(err);
+        } else {
+            todos = [...allTodos];
+            res.redirect("/");
+        }
     });
 
     res.redirect("/");
@@ -92,22 +108,27 @@ app.post("/update", function (req, res) {
 app.post("/delete", function (req, res) {
     let id = req.body.id;
 
-    db.remove({ _id: id }, {}, function (err) {
+    db.remove({
+        _id: id
+    }, {}, function (err) {
         if (err) {
             console.log(err);
         } else {
             db.persistence.compactDatafile();
         }
     });
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
-            if (err) {
-                console.log(err);
-            } else {
-                todos = [...allTodos];
-                res.redirect("/");
-            }
-        });
-    res.redirect("/");
+    db.find({
+        completed: false
+    }).sort({
+        createdAt: -1
+    }).exec(function (err, allTodos) {
+        if (err) {
+            console.log(err);
+        } else {
+            todos = [...allTodos];
+            res.redirect("/");
+        }
+    });
 });
 
 app.post("/create", function (req, res) {
@@ -122,9 +143,13 @@ app.post("/create", function (req, res) {
     db.insert(todo, function (err) {
         if (err) {
             console.log(err);
-        } 
+        }
     });
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+    db.find({
+        completed: false
+    }).sort({
+        createdAt: -1
+    }).exec(function (err, allTodos) {
         if (err) {
             console.log(err);
         } else {
@@ -139,7 +164,13 @@ app.post("/create", function (req, res) {
 app.post("/complete", function (req, res) {
     let id = req.body.id;
 
-    db.update({ _id: id }, { $set: { completed: true } }, function (err) {
+    db.update({
+        _id: id
+    }, {
+        $set: {
+            completed: true
+        }
+    }, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -148,7 +179,11 @@ app.post("/complete", function (req, res) {
     });
 
     //Fetch todos
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+    db.find({
+        completed: false
+    }).sort({
+        createdAt: -1
+    }).exec(function (err, allTodos) {
         if (err) {
             console.log(err);
         } else {
@@ -157,7 +192,11 @@ app.post("/complete", function (req, res) {
     });
 
     //Fetch completed todos
-    db.find({ completed: true }).sort({createdAt:-1}).exec(function (err, allDoneTodos) {
+    db.find({
+        completed: true
+    }).sort({
+        createdAt: -1
+    }).exec(function (err, allDoneTodos) {
         if (err) {
             console.log(err);
         } else {
@@ -173,7 +212,11 @@ app.post("/sort", function (req, res) {
     /*SORTING TODOS TO BE COMPLETED*/
     //Sort todos by ascending order of creation
     if (req.body.sort_type === "asc") {
-        db.find({ completed: false }).sort({createdAt:1}).exec(function (err, allTodos) {
+        db.find({
+            completed: false
+        }).sort({
+            createdAt: 1
+        }).exec(function (err, allTodos) {
             if (err) {
                 console.log(err);
             } else {
@@ -185,7 +228,11 @@ app.post("/sort", function (req, res) {
 
     //Sort todos by descending order of creation
     if (req.body.sort_type === "desc") {
-         db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+        db.find({
+            completed: false
+        }).sort({
+            createdAt: -1
+        }).exec(function (err, allTodos) {
             if (err) {
                 console.log(err);
             } else {
@@ -196,8 +243,12 @@ app.post("/sort", function (req, res) {
     }
 
     //Sort todos by descending order of due date
-     if (req.body.sort_type === "due_desc") {
-        db.find({ completed: false }).sort({dueDate:-1}).exec(function (err, allTodos) {
+    if (req.body.sort_type === "due_desc") {
+        db.find({
+            completed: false
+        }).sort({
+            dueDate: -1
+        }).exec(function (err, allTodos) {
             if (err) {
                 console.log(err);
             } else {
@@ -205,11 +256,15 @@ app.post("/sort", function (req, res) {
                 res.redirect("/");
             }
         });
-     }
-    
+    }
+
     //Sort todos by ascending order of due date
     if (req.body.sort_type === "due_asc") {
-        db.find({ completed: false }).sort({dueDate:1}).exec(function (err, allTodos) {
+        db.find({
+            completed: false
+        }).sort({
+            dueDate: 1
+        }).exec(function (err, allTodos) {
             if (err) {
                 console.log(err);
             } else {
@@ -254,7 +309,11 @@ app.post("/sort", function (req, res) {
 
     //Sort todos by descending order of due date
     if (req.body.sort_type === "due_desc_done") {
-        db.find({ completed: true }).sort({ dueDate: -1 }).exec(function (err, allDoneTodos) {
+        db.find({
+            completed: true
+        }).sort({
+            dueDate: -1
+        }).exec(function (err, allDoneTodos) {
             if (err) {
                 console.log(err);
             } else {
@@ -266,7 +325,11 @@ app.post("/sort", function (req, res) {
 
     //Sort todos by ascending order of due date
     if (req.body.sort_type === "due_asc_done") {
-        db.find({ completed: true }).sort({ dueDate: 1 }).exec(function (err, allDoneTodos) {
+        db.find({
+            completed: true
+        }).sort({
+            dueDate: 1
+        }).exec(function (err, allDoneTodos) {
             if (err) {
                 console.log(err);
             } else {
