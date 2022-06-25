@@ -1,13 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 import Nedb from "nedb";
 
 const __filename = fileURLToPath(
     import.meta.url);
 
-// 👇️ "/home/john/Desktop/javascript"
+//Absolut path
 const __dirname = path.dirname(__filename);
 
 const Datastore = Nedb;
@@ -52,7 +52,7 @@ db.find({ completed: true }).sort({createdAt:-1}).exec(function (err, allDoneTod
 });
 
 //Render fetched todos
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     res.render("page", {
         todos,
         doneTodos
@@ -71,7 +71,7 @@ app.post("/update", function (req, res) {
 
     db.update({ _id: id }, todo, function (err) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
             db.persistence.compactDatafile();
         }
@@ -94,7 +94,7 @@ app.post("/delete", function (req, res) {
 
     db.remove({ _id: id }, {}, function (err) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
             db.persistence.compactDatafile();
         }
@@ -141,7 +141,7 @@ app.post("/complete", function (req, res) {
 
     db.update({ _id: id }, { $set: { completed: true } }, function (err) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
             db.persistence.compactDatafile();
         }
