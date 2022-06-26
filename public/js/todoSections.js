@@ -2,21 +2,19 @@ let tabItems = document.querySelectorAll(".tab-item");
 let sectionTodosDone = document.querySelector("#todo-done");
 let setcionTodosOpen = document.querySelector("#todo-open");
 let createTodoBtn = document.querySelector("#main-primary");
-let createBtnEmptyState = document.querySelector(".empty-state .btn-primary");
+let createBtnsEmptyState = document.querySelectorAll(".empty-state .btn-primary");
 
 function hideTodosOpen() {
     sectionTodosDone.classList.remove("hidden");
     setcionTodosOpen.classList.add("hidden");
     createTodoBtn.classList.add("hidden");
-    createBtnEmptyState.classList.remove("hidden");
+    createBtnsEmptyState[1].classList.add("hidden");
 }
 
 function hideTodosDone() {
     sectionTodosDone.classList.add("hidden");
     setcionTodosOpen.classList.remove("hidden");
     createTodoBtn.classList.remove("hidden");
-    createBtnEmptyState.classList.add("hidden");
-
 }
 
 tabItems.forEach(item => {
