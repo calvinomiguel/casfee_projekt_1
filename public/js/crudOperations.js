@@ -81,9 +81,12 @@ todoItems.forEach(item => {
             //Get todo data for form population
             let title = item.querySelector(".todo-title").innerText;
             let description = item.querySelector(".todo-description").innerText;
-            let priority = item.querySelector(".todo-priority").innerText;
-            let dueDate = item.querySelector(".todo-duedate").getAttribute("data-date");
-            dueDate = transformDate(dueDate);
+            
+            //In case user doesn't set priority
+            let priority = item.querySelector(".todo-priority") ? item.querySelector(".todo-priority").innerText : "Priority";
+            
+            //In case user doesn't set duedate
+            let dueDate = item.querySelector(".todo-duedate") ? transformDate(item.querySelector(".todo-duedate").getAttribute("data-date")) : "";
             let id = item.querySelector(".todo-checkbox").getAttribute("id");
 
             //Populate form with datte
