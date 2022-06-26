@@ -154,7 +154,6 @@ app.post("/create", function (req, res) {
             console.log(err);
         } else {
             todos = [...allTodos];
-            res.redirect("/");
         }
     });
 
