@@ -2,6 +2,8 @@ let btnSwitcher = document.querySelector("#mode-toggler");
 let body = document.body;
 let btnIcon = btnSwitcher.children[0];
 
+
+//Switch btn icon depending if app is on light or dark mode
 btnSwitcher.addEventListener("click", function () {
     if (btnIcon.classList.contains("bxs-moon")) {
         btnIcon.classList.replace("bxs-moon", "bxs-sun");
@@ -28,7 +30,6 @@ let checkStyle = function () {
     if (isModeSet === null) {
         body.classList.remove("dark");
     }
-
-}
+};
 
 checkStyle();

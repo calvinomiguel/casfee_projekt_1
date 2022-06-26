@@ -1,10 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import { fileURLToPath } from "url";
+import {
+    fileURLToPath
+} from "url";
 import Nedb from "nedb";
 
-const __filename = fileURLToPath(import.meta.url);
+const __filename = fileURLToPath(
+    import.meta.url);
 
 //Absolut path
 const __dirname = path.dirname(__filename);
@@ -21,7 +24,9 @@ const port = 3000;
 
 
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.set("views", path.join(__dirname, "/views"));
 app.set("js", path.join(__dirname, "/src/js"));
 app.set("view engine", "ejs");
@@ -30,23 +35,40 @@ app.set("view engine", "ejs");
 let todos = [];
 let doneTodos = [];
 
-//Fetch todos
-db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
-    if (err) {
-        console.log(err);
-    } else {
-        todos = [...allTodos];
-    }
-});
 
-//Fetch completed todos
-db.find({ completed: true }).sort({ createdAt: -1 }).exec(function (err, allDoneTodos) {
-    if (err) {
-        console.log(err);
-    } else {
-        doneTodos = [...allDoneTodos];
-    }
-});
+function fetchTodos() {
+    //Fetch todos to be done
+    db.find({
+        completed: false
+    }).sort({
+        createdAt: -1
+    }).exec(function (err, allTodos) {
+        if (err) {
+            console.log(err);
+        } else {
+            todos = [...allTodos];
+        }
+    });
+}
+
+function fetchTodosDone() {
+    //Fetch completed todos
+    db.find({
+        completed: true
+    }).sort({
+        createdAt: -1
+    }).exec(function (err, allDoneTodos) {
+        if (err) {
+            console.log(err);
+        } else {
+            doneTodos = [...allDoneTodos];
+        }
+    });
+}
+
+//Initial fetch before rendering page
+fetchTodos();
+fetchTodosDone();
 
 //Render fetched todos
 app.get("/", (req, res) => {
@@ -57,7 +79,10 @@ app.get("/", (req, res) => {
 });
 
 app.post("/update", function (req, res) {
+    //Get todo id
     let id = req.body.id;
+
+    //Get todo data
     let todo = {
         title: req.body.title,
         description: req.body.description,
@@ -66,7 +91,10 @@ app.post("/update", function (req, res) {
         completed: false,
     };
 
-    db.update({ _id: id }, todo, function (err) {
+    //Update todo
+    db.update({
+        _id: id
+    }, todo, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -74,21 +102,19 @@ app.post("/update", function (req, res) {
         }
     });
 
-    db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
-        if (err) {
-            console.log(err);
-        } else {
-            todos = [...allTodos];
-        }
-    });
+    //Fetch updated todos
+    fetchTodos();
 
     res.redirect("/");
 });
 
 app.post("/delete", function (req, res) {
-    let id = req.body.id;
+    let id = req.body.id; //Get id of todo to be deleted
 
-    db.remove({ _id: id }, {}, function (err) {
+    //Delete todo from DB
+    db.remove({
+        _id: id
+    }, {}, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -96,18 +122,15 @@ app.post("/delete", function (req, res) {
         }
     });
 
-    db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
-        if (err) {
-            console.log(err);
-        } else {
-            todos = [...allTodos];
-        }
-    });
+    //Fetch updated todos list
+    fetchTodos();
 
     res.redirect("/");
 });
 
 app.post("/create", function (req, res) {
+
+    //Get todo data
     let todo = {
         title: req.body.title,
         description: req.body.description,
@@ -116,27 +139,31 @@ app.post("/create", function (req, res) {
         completed: false,
     };
 
+    //Insert into DB
     db.insert(todo, function (err) {
         if (err) {
             console.log(err);
         }
     });
-    db.find({ completed: false }).sort({
-        createdAt: -1 }).exec(function (err, allTodos) {
-        if (err) {
-            console.log(err);
-        } else {
-            todos = [...allTodos];
-        }
-    });
+
+    //Fetch updated todos list
+    fetchTodos();
+
 
     res.redirect("/");
 });
 
 app.post("/complete", function (req, res) {
-    let id = req.body.id;
+    let id = req.body.id; //Get id of todo to be completed
 
-    db.update({ _id: id }, { $set: { completed: true } }, function (err) {
+    //Set todo completed status to true
+    db.update({
+        _id: id
+    }, {
+        $set: {
+            completed: true
+        }
+    }, function (err) {
         if (err) {
             console.log(err);
         } else {
@@ -144,23 +171,11 @@ app.post("/complete", function (req, res) {
         }
     });
 
-    //Fetch todos
-    db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
-        if (err) {
-            console.log(err);
-        } else {
-            todos = [...allTodos];
-        }
-    });
+    //Fetch updated todos list
+    fetchTodos();
 
-    //Fetch completed todos
-    db.find({ completed: true }).sort({ createdAt: -1 }).exec(function (err, allDoneTodos) {
-        if (err) {
-            console.log(err);
-        } else {
-            doneTodos = [...allDoneTodos];
-        }
-    });
+    //Fetch updated todos done list
+    fetchTodosDone();
 
     res.redirect("/");
 });
@@ -171,12 +186,12 @@ app.post("/sort", function (req, res) {
     //Sort todos by ascending order of creation
     if (req.body.sort_type === "asc") {
         db.find({ completed: false }).sort({  createdAt: 1 }).exec(function (err, allTodos) {
-            if (err) {
-                console.log(err);
-            } else {
-                todos = [...allTodos];
-            }
-        });
+             if (err) {
+                 console.log(err);
+             } else {
+                 todos = [...allTodos];
+             }
+         });
     }
 
     //Sort todos by descending order of creation
@@ -215,7 +230,7 @@ app.post("/sort", function (req, res) {
     /*SORTING FOR TODOS THAT ARE COMPLETED*/
     //Sort todos by ascending order of creation
     if (req.body.sort_type === "asc_done") {
-        db.find({ completed: true }).sort({ createdAt: 1 }).exec(function (err, allDoneTodos) {
+        db.find({ completed: true }).sort({ "createdAt": 1 }).exec(function (err, allDoneTodos) {
             if (err) {
                 console.log(err);
             } else {

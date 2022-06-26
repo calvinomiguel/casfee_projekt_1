@@ -3,12 +3,14 @@ let sectionTodosDone = document.querySelector("#todo-done");
 let setcionTodosOpen = document.querySelector("#todo-open");
 let createTodoBtn = document.querySelector("#main-primary");
 
+//Method to hide section of todos to be done
 function hideTodosOpen() {
     sectionTodosDone.classList.remove("hidden");
     setcionTodosOpen.classList.add("hidden");
     createTodoBtn.classList.add("hidden");
 }
 
+//Method to hide section of todos that are done
 function hideTodosDone() {
     sectionTodosDone.classList.add("hidden");
     setcionTodosOpen.classList.remove("hidden");
@@ -29,7 +31,9 @@ tabItems.forEach(item => {
         //Get data-section attribute of click tab item
         let attr = item.getAttribute("data-section");
 
-        //Toggle sections according to attribute of tab item
+        /*Toggle sections according to attribute of tab item
+         use localStore to make changes permanent for when page
+         is refreshed. It's useful for cases like sorting */
         if (attr === "done") {
             localStorage.setItem("activeTab", attr);
             hideTodosOpen();
@@ -40,6 +44,7 @@ tabItems.forEach(item => {
     });
 });
 
+//Check localStorage to see which tab should be active upon refresh
 function setActiveTab() {
     let activeTab = localStorage.getItem("activeTab") === "open" ? "open" : "done";
 
