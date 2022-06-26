@@ -52,25 +52,25 @@
             <div class="main-container">
                 <div id="todo-open" class="todo-container">
                     <!-- todos -->
-                    <%- include("todos") -%>
+                    <%- include("./partials/todos.ejs") -%>
 
                         <!-- Show empty state if no todos available -->
                         <%if(todos.length < 1){ %>
-                            <%- include("emptyState") -%>
+                            <%- include("./partials/emptyState.ejs") -%>
                                 <%} %>
                 </div>
 
                 <div id="todo-done" class="todo-container hidden">
 
                     <!-- todos done -->
-                    <%- include("todosDone") -%>
+                    <%- include("./partials/todosDone.ejs") -%>
                         <!-- empty state -->
                         <%if(doneTodos.length < 1){ %>
-                            <%- include("emptyState") -%>
+                            <%- include("./partials/emptyState.ejs") -%>
                                 <%} %>
                 </div>
                 <!-- form for creating and updating todos -->
-                <%- include("form")-%>
+                <%- include("./partials/form.ejs")-%>
             </div>
         </div>
     </main>

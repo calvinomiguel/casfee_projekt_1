@@ -72,7 +72,7 @@ fetchTodosDone();
 
 //Render fetched todos
 app.get("/", (req, res) => {
-    res.render("page", {
+    res.render("index", {
         todos,
         doneTodos
     });
