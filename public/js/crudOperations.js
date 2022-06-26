@@ -151,6 +151,9 @@ todoCheckboxes.forEach(checkbox => {
 sortSelect.addEventListener("change", function (event) {
     let sortType = event.currentTarget.value;
     let form;
+
+    /*Check which section is currently open: todo or done todo
+    and send request to sort the secion, which is currently open*/
     if (todoDoneList.classList.contains("hidden")) {
         form = createFrom("sort_type", sortType, "/sort");
     } else {
