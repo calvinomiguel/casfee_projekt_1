@@ -1,13 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 import Nedb from "nedb";
 
-const __filename = fileURLToPath(
-    import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
 
-// 👇️ "/home/john/Desktop/javascript"
+//Absolut path
 const __dirname = path.dirname(__filename);
 
 const Datastore = Nedb;
@@ -22,9 +21,7 @@ const port = 3000;
 
 
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({
-    extended: true,
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "/views"));
 app.set("js", path.join(__dirname, "/src/js"));
 app.set("view engine", "ejs");
@@ -34,7 +31,7 @@ let todos = [];
 let doneTodos = [];
 
 //Fetch todos
-db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
     if (err) {
         console.log(err);
     } else {
@@ -43,7 +40,7 @@ db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos)
 });
 
 //Fetch completed todos
-db.find({ completed: true }).sort({createdAt:-1}).exec(function (err, allDoneTodos) {
+db.find({ completed: true }).sort({ createdAt: -1 }).exec(function (err, allDoneTodos) {
     if (err) {
         console.log(err);
     } else {
@@ -52,7 +49,7 @@ db.find({ completed: true }).sort({createdAt:-1}).exec(function (err, allDoneTod
 });
 
 //Render fetched todos
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     res.render("page", {
         todos,
         doneTodos
@@ -71,19 +68,18 @@ app.post("/update", function (req, res) {
 
     db.update({ _id: id }, todo, function (err) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
             db.persistence.compactDatafile();
         }
     });
 
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
-            if (err) {
-                console.log(err);
-            } else {
-                todos = [...allTodos];
-                res.redirect("/");
-            }
+    db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
+        if (err) {
+            console.log(err);
+        } else {
+            todos = [...allTodos];
+        }
     });
 
     res.redirect("/");
@@ -94,19 +90,20 @@ app.post("/delete", function (req, res) {
 
     db.remove({ _id: id }, {}, function (err) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
             db.persistence.compactDatafile();
         }
     });
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
-            if (err) {
-                console.log(err);
-            } else {
-                todos = [...allTodos];
-                res.redirect("/");
-            }
-        });
+
+    db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
+        if (err) {
+            console.log(err);
+        } else {
+            todos = [...allTodos];
+        }
+    });
+
     res.redirect("/");
 });
 
@@ -122,14 +119,14 @@ app.post("/create", function (req, res) {
     db.insert(todo, function (err) {
         if (err) {
             console.log(err);
-        } 
+        }
     });
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+    db.find({ completed: false }).sort({
+        createdAt: -1 }).exec(function (err, allTodos) {
         if (err) {
             console.log(err);
         } else {
             todos = [...allTodos];
-            res.redirect("/");
         }
     });
 
@@ -141,14 +138,14 @@ app.post("/complete", function (req, res) {
 
     db.update({ _id: id }, { $set: { completed: true } }, function (err) {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
             db.persistence.compactDatafile();
         }
     });
 
     //Fetch todos
-    db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+    db.find({ completed: false }).sort({ createdAt: -1 }).exec(function (err, allTodos) {
         if (err) {
             console.log(err);
         } else {
@@ -157,7 +154,7 @@ app.post("/complete", function (req, res) {
     });
 
     //Fetch completed todos
-    db.find({ completed: true }).sort({createdAt:-1}).exec(function (err, allDoneTodos) {
+    db.find({ completed: true }).sort({ createdAt: -1 }).exec(function (err, allDoneTodos) {
         if (err) {
             console.log(err);
         } else {
@@ -170,84 +167,70 @@ app.post("/complete", function (req, res) {
 
 app.post("/sort", function (req, res) {
 
-    /*SORTING TODOS TO BE COMPLETED*/
+    /*SORTING FOR TODOS TO BE COMPLETED*/
     //Sort todos by ascending order of creation
     if (req.body.sort_type === "asc") {
-        db.find({ completed: false }).sort({createdAt:1}).exec(function (err, allTodos) {
+        db.find({ completed: false }).sort({  createdAt: 1 }).exec(function (err, allTodos) {
             if (err) {
                 console.log(err);
             } else {
                 todos = [...allTodos];
-                res.redirect("/");
             }
         });
     }
 
     //Sort todos by descending order of creation
     if (req.body.sort_type === "desc") {
-         db.find({ completed: false }).sort({createdAt:-1}).exec(function (err, allTodos) {
+        db.find({ completed: false }).sort({  createdAt: -1 }).exec(function (err, allTodos) {
             if (err) {
                 console.log(err);
             } else {
                 todos = [...allTodos];
-                res.redirect("/");
             }
         });
     }
 
     //Sort todos by descending order of due date
-     if (req.body.sort_type === "due_desc") {
-        db.find({ completed: false }).sort({dueDate:-1}).exec(function (err, allTodos) {
+    if (req.body.sort_type === "due_desc") {
+        db.find({ completed: false }).sort({ dueDate: -1 }).exec(function (err, allTodos) {
             if (err) {
                 console.log(err);
             } else {
                 todos = [...allTodos];
-                res.redirect("/");
-            }
-        });
-     }
-    
-    //Sort todos by ascending order of due date
-    if (req.body.sort_type === "due_asc") {
-        db.find({ completed: false }).sort({dueDate:1}).exec(function (err, allTodos) {
-            if (err) {
-                console.log(err);
-            } else {
-                todos = [...allTodos];
-                res.redirect("/");
             }
         });
     }
 
-    /*SORTING TODOS THAT ARE COMPLETED*/
+    //Sort todos by ascending order of due date
+    if (req.body.sort_type === "due_asc") {
+        db.find({ completed: false }).sort({ dueDate: 1 }).exec(function (err, allTodos) {
+            if (err) {
+                console.log(err);
+            } else {
+                todos = [...allTodos];
+            }
+        });
+    }
+
+    /*SORTING FOR TODOS THAT ARE COMPLETED*/
     //Sort todos by ascending order of creation
     if (req.body.sort_type === "asc_done") {
-        db.find({
-            completed: true
-        }).sort({
-            createdAt: 1
-        }).exec(function (err, allDoneTodos) {
+        db.find({ completed: true }).sort({ createdAt: 1 }).exec(function (err, allDoneTodos) {
             if (err) {
                 console.log(err);
             } else {
                 doneTodos = [...allDoneTodos];
-                res.redirect("/");
             }
         });
     }
 
     //Sort todos by descending order of creation
     if (req.body.sort_type === "desc_done") {
-        db.find({
-            completed: true
-        }).sort({
-            createdAt: -1
-        }).exec(function (err, allDoneTodos) {
+        db.find({ completed: true }).sort({ createdAt: -1 }).exec(function (err, allDoneTodos) {
             if (err) {
                 console.log(err);
             } else {
                 doneTodos = [...allDoneTodos];
-                res.redirect("/");
             }
         });
     }
@@ -259,7 +242,6 @@ app.post("/sort", function (req, res) {
                 console.log(err);
             } else {
                 doneTodos = [...allDoneTodos];
-                res.redirect("/");
             }
         });
     }
@@ -271,10 +253,11 @@ app.post("/sort", function (req, res) {
                 console.log(err);
             } else {
                 doneTodos = [...allDoneTodos];
-                res.redirect("/");
             }
         });
     }
+
+    res.redirect("/");
 });
 
 app.listen(port, () => {

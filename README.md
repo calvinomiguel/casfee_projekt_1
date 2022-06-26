@@ -6,6 +6,12 @@
 npm install
 ```
 
+## Create folder for NeDB
+
+```
+Create folder in root directory and name it db
+```
+
 ### Compiles for development
 
 ```
