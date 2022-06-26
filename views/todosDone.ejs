@@ -23,7 +23,7 @@
                     <%if(todo.dueDate){ %>
                         <div class="todo-item-due">
                             <i class="bx bx-time"></i>
-                            <p class="todo-duedate">
+                            <p class="todo-duedate" data-date="<%= todo.dueDate %>">
                                 <% let d=new Date(todo.dueDate); let options={ day: "numeric" , month: "long" , year: "numeric" };%>
                                     <%= d.toLocaleDateString("en-US", options) %>
                             </p>

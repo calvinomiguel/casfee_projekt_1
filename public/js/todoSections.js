@@ -2,13 +2,11 @@ let tabItems = document.querySelectorAll(".tab-item");
 let sectionTodosDone = document.querySelector("#todo-done");
 let setcionTodosOpen = document.querySelector("#todo-open");
 let createTodoBtn = document.querySelector("#main-primary");
-let createBtnsEmptyState = document.querySelectorAll(".empty-state .btn-primary");
 
 function hideTodosOpen() {
     sectionTodosDone.classList.remove("hidden");
     setcionTodosOpen.classList.add("hidden");
     createTodoBtn.classList.add("hidden");
-    createBtnsEmptyState[1].classList.add("hidden");
 }
 
 function hideTodosDone() {

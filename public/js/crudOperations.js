@@ -6,7 +6,6 @@ let todoItems = document.querySelectorAll(".todo-open");
 let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
 let todoDeleteBtns = document.querySelectorAll(".btn-delete-todo");
 let sortSelect = document.querySelector("#sort");
-let todoList = document.querySelector("#todo-open");
 let todoDoneList = document.querySelector("#todo-done");
 
 function setFormFieldsValues(action, id, title, description, priority, dueDate) {
@@ -18,11 +17,14 @@ function setFormFieldsValues(action, id, title, description, priority, dueDate) 
     form.querySelector("#duedate").value = dueDate;
 }
 
+//Method to toggle form for updating and creating todos
 function toggleForm() {
     bgOverlay.classList.toggle("hidden");
     form.classList.toggle("hidden");
 }
 
+//Method to create invisible forms and send requests to backend
+//Needed e.g. for sorting
 function createFrom(inputName, inputValue, action) {
     let form = document.createElement("form");
     let input = document.createElement("input");
@@ -35,6 +37,14 @@ function createFrom(inputName, inputValue, action) {
     return form;
 }
 
+function transformDate(date) {
+    let d = new Date(parseInt(date));
+    let month = (d.getMonth() + 1).toString().padStart(2, "0");
+    let day = d.getDate().toString().padStart(2, "0");
+    let year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+}
+
 openFormBtns.forEach(btn => {
     btn.addEventListener("click", function () {
         //Reset form to default
@@ -43,7 +53,7 @@ openFormBtns.forEach(btn => {
         form.querySelector("#update-todo").classList.add("hidden");
         toggleForm();
     });
-})
+});
 
 todoItems.forEach(item => {
     item.addEventListener("click", function (event) {
@@ -52,7 +62,9 @@ todoItems.forEach(item => {
             let title = item.querySelector(".todo-title").innerText;
             let description = item.querySelector(".todo-description").innerText;
             let priority = item.querySelector(".todo-priority").innerText;
-            let dueDate = item.querySelector(".todo-duedate").innerText;
+            let dueDate = item.querySelector(".todo-duedate").getAttribute("data-date");
+            dueDate = transformDate(dueDate);
+
             let id = item.querySelector(".todo-checkbox").getAttribute("id");
             setFormFieldsValues("/update", id, title, description, priority, dueDate);
             form.querySelector("#create-todo").classList.add("hidden");
@@ -60,6 +72,8 @@ todoItems.forEach(item => {
         }
     });
 });
+
+
 
 closeFormBtn.addEventListener("click", toggleForm);
 
@@ -72,7 +86,7 @@ todoDeleteBtns.forEach(btn => {
         let id = checkbox.getAttribute("id");
         let form = createFrom("id", id, "/delete");
         form.submit();
-    })
+    });
 });
 
 todoCheckboxes.forEach(checkbox => {
@@ -81,7 +95,7 @@ todoCheckboxes.forEach(checkbox => {
         let id = event.currentTarget.getAttribute("id");
         let form = createFrom("id", id, "/complete");
         form.submit();
-    })
+    });
 });
 
 sortSelect.addEventListener("change", function (event) {
@@ -93,4 +107,4 @@ sortSelect.addEventListener("change", function (event) {
         form = createFrom("sort_type", `${sortType}_done`, "/sort");
     }
     form.submit();
-})
+});
