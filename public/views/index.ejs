@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="icons/boxicons/boxicons.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/icons/boxicons.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -39,10 +39,10 @@
                     <div class="form-special-input-container">
                         <select name="sort" id="sort" class="mr-auto">
                             <option disabled selected>Sort</option>
-                            <option value="asc">Oldest to newest</option>
-                            <option value="desc">Newest to oldest</option>
-                            <option value="due_asc">Due date ascending</option>
-                            <option value="due_desc">Due date descending</option>
+                            <option value="{ 'createdAt': 1 }">Oldest to newest</option>
+                            <option value="{ 'createdAt': -1 }">Newest to oldest</option>
+                            <option value="{ 'dueDate': 1 }">Due date ascending</option>
+                            <option value="{ 'dueDate': -1 }">Due date descending</option>
                         </select>
                     </div>
                 </label>
@@ -74,9 +74,7 @@
             </div>
         </div>
     </main>
-    <script src="js/todoSections.js" async></script>
-    <script src="js/styleSwitch.js" async></script>
-    <script src="js/crudOperations.js" async></script>
+    <script src="../js/index.js" type="text/script"></script>
 </body>
 
 </html>
