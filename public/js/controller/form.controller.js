@@ -11,6 +11,13 @@ import {
 } from "../services/todo.service.js";
 
 export async function formController() {
+    let bgOverlay = document.querySelector(".bg-overlay");
+    let form = document.querySelector("#todo-form");
+    let openFormBtns = document.querySelectorAll(".btn-create-todo");
+    let closeFormBtn = document.querySelector("#cancel-todo");
+    let sortSelect = document.querySelector("#sort");
+    let todoDoneList = document.querySelector("#todo-done");
+
     const renderTodos = async function () {
         let todos = {
             todos: await fetchUnCompleted(),
@@ -20,7 +27,9 @@ export async function formController() {
         // eslint-disable-next-line no-undef
         let compiledTemplate = await Handlebars.compile(todoTemplate);
         document.querySelector("#todos-uncompleted").innerHTML = compiledTemplate(todos);
-        console.log("Just rendered completed todos list");
+        setItemsEventListeners();
+        setDeleteBtnsEventlisteners();
+        setCheckboxesEventlisteners();
     };
 
     const renderDoneTodos = async function () {
@@ -31,21 +40,85 @@ export async function formController() {
         // eslint-disable-next-line no-undef
         let compiledDoneTemplate = Handlebars.compile(doneTodoTemplate);
         document.querySelector("#todos-completed").innerHTML = compiledDoneTemplate(todos);
-        console.log("Just rendered completed todos list");
+    };
+
+    const setItemsEventListeners = () => {
+        let todoItems = document.querySelectorAll(".todo-open");
+
+        //3. UPDATING TODO
+        todoItems.forEach(item => {
+            item.addEventListener("click", function (event) {
+
+                /*As todo element has a delete btn and checkbox that can trigger the opening of the form
+                we make sure thah current target only contains main body of todo element by checking
+                if the element contains the todo-open class*/
+                if (event.currentTarget.classList.contains("todo-open")) {
+
+                    //Get todo data for form population
+                    let title = item.querySelector(".todo-title").innerText;
+                    let description = item.querySelector(".todo-description").innerText;
+
+                    //In case user doesn't set priority
+                    let priority = item.querySelector(".todo-priority") ? item.querySelector(".todo-priority").innerText : "Priority";
+
+                    //In case user doesn't set duedate
+                    let dueDate = item.querySelector(".todo-duedate") ? transformDate(item.querySelector(".todo-duedate").getAttribute("data-date")) : "";
+                    let id = item.querySelector(".todo-checkbox").getAttribute("id");
+
+                    //Populate form with datte
+                    setFormFieldsValues( /*"/update",*/ id, title, description, priority, dueDate);
+
+                    //Hide create task button and reveal update task button
+                    form.querySelector("#create-todo").classList.add("hidden");
+                    form.querySelector("#update-todo").classList.remove("hidden");
+
+                    toggleForm(); //Reveal form to user
+                }
+            });
+        });
+    };
+
+    const setDeleteBtnsEventlisteners = () => {
+        let todoDeleteBtns = document.querySelectorAll(".btn-delete-todo");
+        /*5. DELETE TODO*/
+        todoDeleteBtns.forEach(btn => {
+            btn.addEventListener("click", async function (event) {
+                //Stop propagation of event so that todoItem click events isn't triggered
+                event.stopPropagation();
+
+                //Get checkbox of todo item in which the delete button is inside of
+                let checkbox = event.currentTarget.parentElement.children[0];
+
+                //Get id of todo
+                let id = checkbox.getAttribute("id");
+                await deleteTodo(id).then(await renderTodos());
+            });
+        });
+    };
+
+    const setCheckboxesEventlisteners = () => {
+        let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
+        /*6. COMPLETE TODO*/
+        todoCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener("click", function (event) {
+
+                //Stop propagation of event so that todoItem click events isn't triggered
+                event.stopPropagation();
+
+                //Get id of todo
+                let id = event.currentTarget.getAttribute("id");
+
+                //Create invisible form with complette action
+                let form = createForm("id", id, "/complete");
+
+                //Submit to backend for completion
+                form.submit();
+            });
+        });
     };
 
     await renderTodos();
     await renderDoneTodos();
-
-    let bgOverlay = document.querySelector(".bg-overlay");
-    let form = document.querySelector("#todo-form");
-    let openFormBtns = document.querySelectorAll(".btn-create-todo");
-    let closeFormBtn = document.querySelector("#cancel-todo");
-    let todoItems = document.querySelectorAll(".todo-open");
-    let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
-    let todoDeleteBtns = document.querySelectorAll(".btn-delete-todo");
-    let sortSelect = document.querySelector("#sort");
-    let todoDoneList = document.querySelector("#todo-done");
 
 
     /*1. METHODS*/
@@ -57,8 +130,7 @@ export async function formController() {
     }
 
     //Method to set values to form
-    function setFormFieldsValues( /*action,*/ id, title, description, priority, dueDate) {
-        //form.setAttribute("action", action);
+    function setFormFieldsValues(id, title, description, priority, dueDate) {
         form.querySelector("#todo-id").value = id;
         form.querySelector("#title").value = title;
         form.querySelector("#description").value = description;
@@ -124,37 +196,6 @@ export async function formController() {
     });
 
 
-    //3. UPDATING TODO
-    todoItems.forEach(item => {
-        item.addEventListener("click", function (event) {
-
-            /*As todo element has a delete btn and checkbox that can trigger the opening of the form
-            we make sure thah current target only contains main body of todo element by checking
-            if the element contains the todo-open class*/
-            if (event.currentTarget.classList.contains("todo-open")) {
-
-                //Get todo data for form population
-                let title = item.querySelector(".todo-title").innerText;
-                let description = item.querySelector(".todo-description").innerText;
-
-                //In case user doesn't set priority
-                let priority = item.querySelector(".todo-priority") ? item.querySelector(".todo-priority").innerText : "Priority";
-
-                //In case user doesn't set duedate
-                let dueDate = item.querySelector(".todo-duedate") ? transformDate(item.querySelector(".todo-duedate").getAttribute("data-date")) : "";
-                let id = item.querySelector(".todo-checkbox").getAttribute("id");
-
-                //Populate form with datte
-                setFormFieldsValues( /*"/update",*/ id, title, description, priority, dueDate);
-
-                //Hide create task button and reveal update task button
-                form.querySelector("#create-todo").classList.add("hidden");
-                form.querySelector("#update-todo").classList.remove("hidden");
-
-                toggleForm(); //Reveal form to user
-            }
-        });
-    });
 
     /*4. CLOSING FORM*/
     /*Add event listener to cancel button and add toggleform method
@@ -167,39 +208,9 @@ export async function formController() {
     */
     bgOverlay.addEventListener("click", toggleForm);
 
-    /*5. DELETE TODO*/
-    todoDeleteBtns.forEach(btn => {
-        btn.addEventListener("click", async function (event) {
-            //Stop propagation of event so that todoItem click events isn't triggered
-            event.stopPropagation();
 
-            //Get checkbox of todo item in which the delete button is inside of
-            let checkbox = event.currentTarget.parentElement.children[0];
 
-            //Get id of todo
-            let id = checkbox.getAttribute("id");
-            await deleteTodo(id).then(await renderTodos());
-            console.log("YOH");
-        });
-    });
 
-    /*6. COMPLETE TODO*/
-    todoCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener("click", function (event) {
-
-            //Stop propagation of event so that todoItem click events isn't triggered
-            event.stopPropagation();
-
-            //Get id of todo
-            let id = event.currentTarget.getAttribute("id");
-
-            //Create invisible form with complette action
-            let form = createForm("id", id, "/complete");
-
-            //Submit to backend for completion
-            form.submit();
-        });
-    });
 
     /*7. SORT TODOS*/
     sortSelect.addEventListener("change", function (event) {
