@@ -1,6 +1,14 @@
-import { createTodo, deleteTodo } from "../services/todo.service.js";
-import { todo } from "../model/todo.model.js";
-import { fetchUnCompleted, fetchCompleted } from "../services/todo.service.js";
+import {
+    createTodo,
+    deleteTodo
+} from "../services/todo.service.js";
+import {
+    todo
+} from "../model/todo.model.js";
+import {
+    fetchUnCompleted,
+    fetchCompleted
+} from "../services/todo.service.js";
 
 export async function formController() {
     const renderTodos = async function () {
@@ -12,6 +20,7 @@ export async function formController() {
         // eslint-disable-next-line no-undef
         let compiledTemplate = await Handlebars.compile(todoTemplate);
         document.querySelector("#todos-uncompleted").innerHTML = compiledTemplate(todos);
+        console.log("Just rendered completed todos list");
     };
 
     const renderDoneTodos = async function () {
@@ -22,7 +31,7 @@ export async function formController() {
         // eslint-disable-next-line no-undef
         let compiledDoneTemplate = Handlebars.compile(doneTodoTemplate);
         document.querySelector("#todos-completed").innerHTML = compiledDoneTemplate(todos);
-
+        console.log("Just rendered completed todos list");
     };
 
     await renderTodos();
@@ -37,7 +46,7 @@ export async function formController() {
     let todoDeleteBtns = document.querySelectorAll(".btn-delete-todo");
     let sortSelect = document.querySelector("#sort");
     let todoDoneList = document.querySelector("#todo-done");
-   
+
 
     /*1. METHODS*/
 
@@ -110,7 +119,7 @@ export async function formController() {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        await createTodo(setTodo());
+        await createTodo(setTodo()).then(await renderTodos());
         toggleForm();
     });
 
@@ -169,8 +178,8 @@ export async function formController() {
 
             //Get id of todo
             let id = checkbox.getAttribute("id");
-            await deleteTodo(id);
-            await renderTodos();
+            await deleteTodo(id).then(await renderTodos());
+            console.log("YOH");
         });
     });
 

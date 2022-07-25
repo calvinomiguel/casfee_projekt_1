@@ -5,7 +5,8 @@ import {
 } from "url";
 
 //Absolut path
-const __filename = fileURLToPath(import.meta.url);
+const __filename = fileURLToPath(
+    import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const db = Nedb.create({
@@ -51,9 +52,10 @@ async function completeTodo(id) {
         $set: {
             completed: true
         }
-    }).then(db.persistence.compactDatafile()).catch(err => {
+    }).catch(err => {
         console.log(err);
     });
+    compactDB();
 }
 
 async function sortTodos(sortOrder, completed) {

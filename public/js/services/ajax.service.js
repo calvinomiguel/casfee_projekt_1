@@ -1,11 +1,18 @@
 async function ajax(method, url, data) {
     if (method === "GET" || method === "DELETE") {
-        console.log(method);
         return fetch(url, {
             method: method,
             headers: {}
         }).then(x => x.json());
     }
+
+    if (method === "DELETE") {
+        fetch(url, {
+            method: method,
+            headers: {}
+        }).then(x => x.json());
+    }
+
     return fetch(url, {
         method: method,
         headers: {
