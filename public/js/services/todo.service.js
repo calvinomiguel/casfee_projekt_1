@@ -26,11 +26,15 @@ async function fetchUnCompleted() {
     return await ajax("GET", "/get-uncompleted");
 }
 
+async function sortTodos(options) {
+    return await ajax("GET", `/sort/${options.attr}/${options.order}/${options.completed}`);
+}
 export {
     createTodo,
     updateTodo,
     deleteTodo,
     fetchCompleted,
     fetchUnCompleted,
-    completeTodo
+    completeTodo,
+    sortTodos
 };

@@ -5,7 +5,8 @@ import {
     remove,
     update,
     create,
-    complete
+    complete,
+    sort
 } from "../controller/data.controller.js";
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.post("/create", create);
 router.delete("/delete:id", remove);
 router.put("/update:id", update);
 router.put("/complete:id", complete);
+router.get("/sort/:attr/:order/:completed", sort);
 
 const routes = router;
 

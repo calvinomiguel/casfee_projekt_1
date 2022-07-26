@@ -1,31 +1,22 @@
 async function ajax(method, url, data) {
-    if (method === "GET") {
-        return fetch(url, {
-            method: method,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-        }).then(res => res.json());
-    }
+    const headers = method === "DELETE" || (method === "PUT" && data === undefined) ? {} : {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    };
+    
+    const body = data === undefined ? {} : {
+        body: JSON.stringify(data)
+    };
 
-    if (method === "DELETE" || method === "PUT") {
-        fetch(url, {
-            method: method,
-            headers: {}
-        }).then(res => console.log(res));
-    }
+    const options = {
+        method: method,
+        headers: headers,
+        ...body,
+    };
 
-    if (method === "POST") {
-        return fetch(url, {
-            method: method,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        }).then(x => x.json());
-    }
+    return fetch(url, {
+        ...options
+    }).then(res => res.json());
 }
 
 export {

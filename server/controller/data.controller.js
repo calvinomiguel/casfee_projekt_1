@@ -4,6 +4,7 @@ import {
     updateTodo,
     createTodo,
     completeTodo,
+    sortTodos,
 } from "../db/db.js";
 
 async function fetchUncompleted(req, res) {
@@ -32,11 +33,17 @@ async function complete(req, res) {
     await completeTodo(req.params.id).then(res.status(200));
 }
 
+async function sort(req, res) {
+    let sortOptions = { [req.params.attr]: req.params.order };
+    res.json(await sortTodos(JSON.parse(req.params.completed), sortOptions));
+}
+
 export {
     fetchUncompleted,
     fetchCompleted,
     remove,
     update,
     create,
-    complete
+    complete,
+    sort
 };

@@ -41,10 +41,10 @@
                     <div class="form-special-input-container">
                         <select name="sort" id="sort" class="mr-auto">
                             <option disabled selected>Sort</option>
-                            <option value="{ 'createdAt': 1 }">Oldest to newest</option>
-                            <option value="{ 'createdAt': -1 }">Newest to oldest</option>
-                            <option value="{ 'dueDate': 1 }">Due date ascending</option>
-                            <option value="{ 'dueDate': -1 }">Due date descending</option>
+                            <option value="{ 'attr':'createdAt', 'order':1 }">Oldest to newest</option>
+                            <option value="{ 'attr':'createdAt', 'order': -1 }">Newest to oldest</option>
+                            <option value="{ 'attr':'dueDate', 'order': 1 }">Due date ascending</option>
+                            <option value="{ 'attr':'dueDate', 'order': -1 }">Due date descending</option>
                         </select>
                     </div>
                 </label>
