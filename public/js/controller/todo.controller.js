@@ -13,7 +13,7 @@ import {
     fetchCompleted
 } from "../services/todo.service.js";
 
-export async function formController() {
+export async function todoController() {
     let bgOverlay = document.querySelector(".bg-overlay");
     let form = document.querySelector("#todo-form");
     let openFormBtns = document.querySelectorAll(".btn-create-todo");
