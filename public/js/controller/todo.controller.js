@@ -46,7 +46,7 @@ export async function todoController() {
 
     };
 
-    //Method for redering uncompleted todos
+    //Method for rendering uncompleted todos
     const renderTodos = async function (data) {
         let todos = {
             todos: data,
@@ -73,7 +73,7 @@ export async function todoController() {
         document.querySelector("#todos-completed").innerHTML = compiledDoneTemplate(todos);
     };
 
-    //Method for setting eventlistener to todo items 
+    //Method for setting event listener to todo items
     const setItemsEventListeners = function () {
         let todoItems = document.querySelectorAll(".todo-open");
 
@@ -82,7 +82,7 @@ export async function todoController() {
             item.addEventListener("click", function (event) {
 
                 /*As todo element has a delete btn and checkbox that can trigger the opening of the form
-                we make sure thah current target only contains main body of todo element by checking
+                we make sure that current target only contains main body of todo element by checking
                 if the element contains the todo-open class*/
                 if (event.currentTarget.classList.contains("todo-open")) {
 
@@ -93,11 +93,11 @@ export async function todoController() {
                     //In case user doesn't set priority
                     let priority = item.querySelector(".todo-priority") ? item.querySelector(".todo-priority").innerText : "Priority";
 
-                    //In case user doesn't set duedate
+                    //In case user doesn't set due-date
                     let dueDate = item.querySelector(".todo-duedate") ? transformDate(item.querySelector(".todo-duedate").getAttribute("data-date")) : "";
                     let id = item.querySelector(".todo-checkbox").getAttribute("id");
 
-                    //Populate form with datte
+                    //Populate form with data
                     setFormFieldsValues(id, title, description, priority, dueDate);
 
                     //Hide create task button and reveal update task button
@@ -107,17 +107,17 @@ export async function todoController() {
                     //Reveal form to user
                     toggleForm();
 
-                    //Remove eventlistener so that form doesn't create a new todo upon submission
+                    //Remove event listener so that form doesn't create a new todo upon submission
                     form.removeEventListener("submit", create);
 
-                    //Add new eventlistener so that form updates upon submission
+                    //Add new event listener so that form updates upon submission
                     form.addEventListener("submit", update);
                 }
             });
         });
     };
 
-    //Method for setting eventlistener to todo items delete btn 
+    //Method for setting event listener to todo items delete btn
     const setDeleteBtnsEventlisteners = function () {
         let todoDeleteBtns = document.querySelectorAll(".btn-delete-todo");
 
@@ -137,7 +137,7 @@ export async function todoController() {
         });
     };
 
-    //Method for setting eventlistener to todo items checkbox
+    //Method for setting event listener to todo items checkbox
     const setCheckboxesEventlisteners = function () {
         let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
         /*6. COMPLETE TODO*/
@@ -186,10 +186,10 @@ export async function todoController() {
 
     //Open form to define a todo
     openFormBtns.forEach(btn => {
-        //Add eventlistener to btns used to open form 
+        //Add event listener to btns used to open form
         btn.addEventListener("click", function () {
 
-            //Reset form to default meaning no prepopulation only empty fields
+            //Reset form to default meaning no pre population only empty fields
             setFormFieldsValues("", "", "", "Priority", "");
 
             //Make sure create task button is being shown and not update task button
@@ -203,8 +203,8 @@ export async function todoController() {
 
     //Method for getting content of todo creation form and model it as todo object
     function setTodo() {
-        let priority = form["priority"].value === "Priority" ? "" : form["priority"].value;
-        return todo(form["title"].value, form["description"].value, form["duedate"].value, priority);
+        let priority = form.priority.value === "Priority" ? "" : form.priority.value;
+        return todo(form.title.value, form.description.value, form.duedate.value, priority);
     }
 
     //Create todo
@@ -212,7 +212,7 @@ export async function todoController() {
 
     /*CLOSING FORM*/
 
-    /*Add event listener to cancel button and add toggleform method
+    /*Add event listener to cancel button and add toggle form method
     in order to close form on click
     */
     closeFormBtn.addEventListener("click", function () {
@@ -235,7 +235,7 @@ export async function todoController() {
         options = JSON.parse(options);
 
         /*Check which section is currently open: todo or done todo
-        and send request to sort the secion, which is currently open*/
+        and send request to sort the section, which is currently open*/
         if (todoDoneList.classList.contains("hidden")) {
             options.completed = false;
             await renderTodos(await sortTodos(options));

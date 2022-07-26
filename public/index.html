@@ -1,199 +1,238 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Do-it</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/icons/boxicons.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
 
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/icons/boxicons.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-
-<body>
+  <body>
     <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
     <main>
-        <div class="app-wrapper">
-            <!-- overlay -->
-            <div class="bg-overlay hidden"></div>
-            <!-- tab -->
-            <nav class="tab">
-                <ul>
-                    <li data-section="open" class="tab-item tab-active">
-                        To-do
-                    </li>
-                    <li data-section="done" class="tab-item">
-                        Done
-                    </li>
-                </ul>
-            </nav>
-            <div class="fn-bar btn-container">
-                <label id="sort-container" for="sort" class="form-special-input mr-auto">
-                    <i class="bx bx-filter bx-sm color-dark-60"></i>
-                    <div class="form-special-input-container">
-                        <select name="sort" id="sort" class="mr-auto">
-                            <option disabled selected>Sort</option>
-                            <option value="{ 'attr':'createdAt', 'order':1 }">Oldest to newest</option>
-                            <option value="{ 'attr':'createdAt', 'order': -1 }">Newest to oldest</option>
-                            <option value="{ 'attr':'dueDate', 'order': 1 }">Due date ascending</option>
-                            <option value="{ 'attr':'dueDate', 'order': -1 }">Due date descending</option>
-                        </select>
-                    </div>
-                </label>
-                <button class="btn-basic" id="mode-toggler"> <i class="bx bxs-moon"></i></button>
-                <button id="main-primary" type="button" class="btn-primary btn-create-todo">Create task</button>
-            </div>
-            <div class="main-container">
-                <div id="todo-open" class="todo-container">
-                    <ul id="todos-uncompleted"></ul>
-                    <script id="uncompleted-todos" type="text/x-handlebars-template">
-
-                        <!-- todo item -->
-                    {{#if todos }}
-                        {{#each todos}}
-                    <li class="todo-item todo-open">
-                        <input type="checkbox" name="todo" id="{{_id}}" class="todo-checkbox">
-                        <div class="todo-item-main-wrapper">
-                            <div class="todo-item-main">
-                                <h4 class="todo-title">
-                                    {{title}}
-                                </h4>
-                                <p class="todo-description">
-                                    {{description}}
-                                </p>
-                            </div>
-                            <div class="todo-item-footer">
-                                <!-- Show priority only if there is a priority assigned -->
-                                {{#if priority}}
-                                <div class="todo-priority-tag tag-{{priority}} mr-2">
-                                    <p class="todo-priority">
-                                        {{priority}}
-                                    </p>
-                                </div>
-                                {{/if}}
-                                <!-- Show due date only if there is a due date assigned -->
-                                {{#if dueDate}}
-                                <div class="todo-item-due">
-                                    <i class="bx bx-time"></i>
-                                    <p class="todo-duedate" data-date="{{dueDate}}">
-                                        {{dueDate}}
-                                    </p>
-                                </div>
-                                {{/if}}
-                            </div>
-                        </div>
-                        <button class="btn-basic btn-delete-todo">
-                            <i class="bx bx-trash bx-sm"></i>
-                        </button>
-                    </li>
-                    {{/each}}
-                    {{else}}
-                    <div class="empty-state">
-                        <figure>
-                            <img src="img/empty-state.png" alt="Empty State image">
-                        </figure>
-                        <div class="empty-state-text">
-                            <h4>Seems pretty empty in here</h4>
-                            <p>Life doesn't have to be as boring as it is right now. Create your first task.</p>
-                        </div>
-                    </div>
-                    {{/if}}
-
-                    </script>
-                </div>
-
-                <div id="todo-done" class="todo-container hidden">
-                    <ul id="todos-completed"></ul>
-                    <script id="completed-todos" type="text/x-handlebars-template">
-                {{#if doneTodos}}
-                    {{#each doneTodos}}
-                        <li class="todo-item todo-done">
-                            <div class="todo-item-main-wrapper">
-                                <div class="todo-item-main">
-                                    <h4 class="todo-title">
-                                        {{title}}
-                                    </h4>
-                                    <p class="todo-description">
-                                        {{description}}
-                                    </p>
-                                </div>
-                                <div class="todo-item-footer">
-                                    <!-- Show priority only if there is a priority assigned -->
-                                    {{#if priority}}
-                                        <div class="todo-priority-tag tag-{{priority}} mr-2">
-                                            <p class="todo-priority">
-                                                {{priority}}
-                                            </p>
-                                        </div>
-                                    {{/if}}
-                                            <!-- Show due date only if there is a due date assigned -->
-                                                {{#if dueDate}}
-                                                <div class="todo-item-due">
-                                                    <i class="bx bx-time"></i>
-                                                    <p class="todo-duedate" data-date="{{dueDate}}">
-                                                        {{dueDate}}
-                                                    </p>
-                                                </div>
-                                                {{/if}}
-                                </div>
-                            </div>
-                        </li>
-                    {{/each}}
-                    {{else}}
-                    <div class="empty-state">
-                        <figure>
-                            <img src="img/empty-state.png" alt="Empty State image">
-                        </figure>
-                        <div class="empty-state-text">
-                            <h4>Seems pretty empty in here</h4>
-                            <p>You haven't finished a task yet.</p>
-                        </div>
-                    </div>
-                {{/if}}
-            </script>
-                </div>
-                <form class="c-form hidden" method="post" id="todo-form">
-                    <input type="hidden" id="todo-id" name="id" value="">
-                    <input autocomplete="off" class="c-textfield c-textfield-title" type="text" name="title" id="title"
-                        placeholder="Task title...">
-                    <textarea autocomplete="off" class="c-textarea" name="description" id="description"
-                        placeholder="Description"></textarea>
-                    <div class="btn-container">
-                        <label for="duedate" class="form-special-input">
-                            <div class="form-special-input-container">
-                                <span>Due date</span>
-                                <input type="date" id="duedate" name="duedate" />
-                            </div>
-                        </label>
-                        <label for="priority" class="form-special-input mr-auto">
-                            <div class="form-special-input-container">
-                                <span>Priority</span>
-                                <select name="priority" id="priority" class="mr-auto">
-                                    <option disabled selected>Priority</option>
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
-                            </div>
-                        </label>
-                        <button id="cancel-todo" type="button" class="btn-basic btn-cancel-todo">Cancel</button>
-                        <button type="submit" id="create-todo" class="btn-primary">Create task</button>
-                        <button type="submit" id="update-todo" class="btn-primary hidden">Update task</button>
-                    </div>
-                </form>
-            </div>
+      <div class="app-wrapper">
+        <!-- overlay -->
+        <div class="bg-overlay hidden"></div>
+        <!-- tab -->
+        <nav class="tab">
+          <ul>
+            <li data-section="open" class="tab-item tab-active">To-do</li>
+            <li data-section="done" class="tab-item">Done</li>
+          </ul>
+        </nav>
+        <div class="fn-bar btn-container">
+          <label
+            id="sort-container"
+            for="sort"
+            class="form-special-input mr-auto"
+          >
+            <i class="bx bx-filter bx-sm color-dark-60"></i>
+            <span class="form-special-input-container">
+              <select name="sort" id="sort" class="mr-auto">
+                <option disabled selected>Sort</option>
+                <option value="{ 'attr':'createdAt', 'order':1 }">
+                  Oldest to newest
+                </option>
+                <option value="{ 'attr':'createdAt', 'order': -1 }">
+                  Newest to oldest
+                </option>
+                <option value="{ 'attr':'dueDate', 'order': 1 }">
+                  Due date ascending
+                </option>
+                <option value="{ 'attr':'dueDate', 'order': -1 }">
+                  Due date descending
+                </option>
+              </select>
+            </span>
+          </label>
+          <button class="btn-basic" id="mode-toggler">
+            <i class="bx bxs-moon"></i>
+          </button>
+          <button
+            id="main-primary"
+            type="button"
+            class="btn-primary btn-create-todo"
+          >
+            Create task
+          </button>
         </div>
-    </main>
-    <script src="../js/index.js" type="text/script"></script>
-    <script src="./js/index.js" type="module"></script>
-</body>
+        <div class="main-container">
+          <div id="todo-open" class="todo-container">
+            <ul id="todos-uncompleted"></ul>
+            <script id="uncompleted-todos" type="text/x-handlebars-template">
+              <!-- todo item -->
+              {{#if todos}}
+                {{#each todos}}
+                  <li class="todo-item todo-open">
+                    <input
+                      type="checkbox"
+                      name="todo"
+                      id="{{_id}}"
+                      class="todo-checkbox"
+                    />
+                    <div class="todo-item-main-wrapper">
+                      <div class="todo-item-main">
+                        <h4 class="todo-title">
+                          {{title}}
+                        </h4>
+                        <p class="todo-description">
+                          {{description}}
+                        </p>
+                      </div>
+                      <div class="todo-item-footer">
+                        <!-- Show priority only if there is a priority assigned -->
+                        {{#if priority}}
+                          <div class="todo-priority-tag tag-{{priority}} mr-2">
+                            <p class="todo-priority">
+                              {{priority}}
+                            </p>
+                          </div>
+                        {{/if}}
+                        <!-- Show due date only if there is a due date assigned -->
+                        {{#if dueDate}}
+                          <div class="todo-item-due">
+                            <i class="bx bx-time"></i>
+                            <p class="todo-duedate" data-date="{{dueDate}}">
+                              {{dueDate}}
+                            </p>
+                          </div>
+                        {{/if}}
+                      </div>
+                    </div>
+                    <button class="btn-basic btn-delete-todo">
+                      <i class="bx bx-trash bx-sm"></i>
+                    </button>
+                  </li>
+                {{/each}}
+              {{else}}
+                <div class="empty-state">
+                  <figure>
+                    <img src="img/empty-state.png" alt="Empty State image" />
+                  </figure>
+                  <div class="empty-state-text">
+                    <h4>Seems pretty empty in here</h4>
+                    <p>Life doesn't have to be as boring as it is right now.
+                      Create your first task.</p>
+                  </div>
+                </div>
+              {{/if}}
+            </script>
+          </div>
 
+          <div id="todo-done" class="todo-container hidden">
+            <ul id="todos-completed"></ul>
+            <script id="completed-todos" type="text/x-handlebars-template">
+              {{#if doneTodos}}
+                {{#each doneTodos}}
+                  <li class="todo-item todo-done">
+                    <div class="todo-item-main-wrapper">
+                      <div class="todo-item-main">
+                        <h4 class="todo-title">
+                          {{title}}
+                        </h4>
+                        <p class="todo-description">
+                          {{description}}
+                        </p>
+                      </div>
+                      <div class="todo-item-footer">
+                        <!-- Show priority only if there is a priority assigned -->
+                        {{#if priority}}
+                          <div class="todo-priority-tag tag-{{priority}} mr-2">
+                            <p class="todo-priority">
+                              {{priority}}
+                            </p>
+                          </div>
+                        {{/if}}
+                        <!-- Show due date only if there is a due date assigned -->
+                        {{#if dueDate}}
+                          <div class="todo-item-due">
+                            <i class="bx bx-time"></i>
+                            <p class="todo-duedate" data-date="{{dueDate}}">
+                              {{dueDate}}
+                            </p>
+                          </div>
+                        {{/if}}
+                      </div>
+                    </div>
+                  </li>
+                {{/each}}
+              {{else}}
+                <div class="empty-state">
+                  <figure>
+                    <img src="img/empty-state.png" alt="Empty State image" />
+                  </figure>
+                  <div class="empty-state-text">
+                    <h4>Seems pretty empty in here</h4>
+                    <p>You haven't finished a task yet.</p>
+                  </div>
+                </div>
+              {{/if}}
+            </script>
+          </div>
+          <form class="c-form hidden" method="post" id="todo-form">
+            <input type="hidden" id="todo-id" name="id" value="" />
+            <input
+              autocomplete="off"
+              class="c-textfield c-textfield-title"
+              type="text"
+              name="title"
+              id="title"
+              placeholder="Task title..."
+            />
+            <textarea
+              autocomplete="off"
+              class="c-textarea"
+              name="description"
+              id="description"
+              placeholder="Description"
+            ></textarea>
+            <div class="btn-container">
+              <label for="duedate" class="form-special-input">
+                <span class="form-special-input-container">
+                  <span>Due date</span>
+                  <input type="date" id="duedate" name="duedate" />
+                </span>
+              </label>
+              <label for="priority" class="form-special-input mr-auto">
+                <span class="form-special-input-container">
+                  <span>Priority</span>
+                  <select name="priority" id="priority" class="mr-auto">
+                    <option disabled selected>Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </span>
+              </label>
+              <button
+                id="cancel-todo"
+                type="button"
+                class="btn-basic btn-cancel-todo"
+              >
+                Cancel
+              </button>
+              <button type="submit" id="create-todo" class="btn-primary">
+                Create task
+              </button>
+              <button type="submit" id="update-todo" class="btn-primary hidden">
+                Update task
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="./js/index.js" type="module"></script>
+  </body>
 </html>

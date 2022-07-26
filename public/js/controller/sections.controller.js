@@ -1,20 +1,20 @@
 export function sectionsController() {
     let tabItems = document.querySelectorAll(".tab-item");
     let sectionTodosDone = document.querySelector("#todo-done");
-    let setcionTodosOpen = document.querySelector("#todo-open");
+    let sectionTodosOpen = document.querySelector("#todo-open");
     let createTodoBtn = document.querySelector("#main-primary");
 
     //Method to hide section of todos to be done
     function hideTodosOpen() {
         sectionTodosDone.classList.remove("hidden");
-        setcionTodosOpen.classList.add("hidden");
+        sectionTodosOpen.classList.add("hidden");
         createTodoBtn.classList.add("hidden");
     }
 
     //Method to hide section of todos that are done
     function hideTodosDone() {
         sectionTodosDone.classList.add("hidden");
-        setcionTodosOpen.classList.remove("hidden");
+        sectionTodosOpen.classList.remove("hidden");
         createTodoBtn.classList.remove("hidden");
     }
 

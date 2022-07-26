@@ -1,9 +1,2 @@
-{"title":"Rasss","description":"dasdasdasdasd","dueDate":"","priority":"high","completed":true,"_id":"3kPv4l9t04P7gXbW","createdAt":{"$$date":1658865417585},"updatedAt":{"$$date":1658865718663}}
-{"title":"dasdasd","description":"adsadasd","dueDate":"2022-09-23","priority":"","completed":false,"_id":"3mgMbmnWPx2KjMh9","createdAt":{"$$date":1658871438630},"updatedAt":{"$$date":1658871438630}}
-{"title":"adasd","description":"dasd","dueDate":"","priority":"","completed":true,"_id":"3qMjJ3futBDwLZwu","createdAt":{"$$date":1658864766127},"updatedAt":{"$$date":1658865715684}}
-{"title":"dddsssssss","description":"dddssss","dueDate":"1970-01-01","priority":"high","completed":true,"_id":"7IKzHe2Bee5qnOiN","createdAt":{"$$date":1658864136437},"updatedAt":{"$$date":1658864626215}}
-{"title":"dasd","description":"dasdasd","dueDate":"","priority":"","completed":true,"_id":"GktHLpeYcqhG1Sjq","createdAt":{"$$date":1658864772808},"updatedAt":{"$$date":1658865716682}}
-{"title":"radad","description":"dasdasd","dueDate":"1970-01-29","priority":"high","completed":false,"_id":"NIb66asn0zH8n3Lv","createdAt":{"$$date":1658869716971},"updatedAt":{"$$date":1658871399719}}
-{"title":"rapido!!","description":"dabidooo","dueDate":"2022-07-29","priority":"high","completed":false,"_id":"eGeThU5uFRoe5Yqx","createdAt":{"$$date":1658865386318},"updatedAt":{"$$date":1658865386318}}
-{"title":"www","description":"wwwwsss","dueDate":"1970-01-01","priority":"medium","completed":true,"_id":"eQuxBgukct7aVtFc","createdAt":{"$$date":1658864777289},"updatedAt":{"$$date":1658865717622}}
-{"title":"dd","description":"d","dueDate":"","priority":"","completed":true,"_id":"hlCHWFlIFxqLjrzk","createdAt":{"$$date":1658864087819},"updatedAt":{"$$date":1658864093785}}
+{"title":"Task title","description":"Describe task","dueDate":"2022-07-06","priority":"low","completed":true,"_id":"7iiYjH9alDEvnPgk","createdAt":{"$$date":1658874737960},"updatedAt":{"$$date":1658874845495}}
+{"title":"Test todo","description":"Hello world","dueDate":"2022-07-06","priority":"high","completed":true,"_id":"KBEc9mhNZ2G7sRNi","createdAt":{"$$date":1658874718086},"updatedAt":{"$$date":1658874844316}}
