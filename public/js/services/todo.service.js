@@ -7,11 +7,15 @@ async function createTodo(todo) {
 }
 
 async function updateTodo(id, todo) {
-    return await ajax("PUT", `/update${id}`, todo);
+    await ajax("PUT", `/update${id}`, todo);
+}
+
+async function completeTodo(id) {
+    await ajax("PUT", `/complete${id}`);
 }
 
 async function deleteTodo(id) {
-    return await ajax("DELETE", `/delete${id}`);
+    await ajax("DELETE", `/delete${id}`);
 }
 
 async function fetchCompleted() {
@@ -27,5 +31,6 @@ export {
     updateTodo,
     deleteTodo,
     fetchCompleted,
-    fetchUnCompleted
+    fetchUnCompleted,
+    completeTodo
 };

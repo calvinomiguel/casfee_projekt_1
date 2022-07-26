@@ -1,6 +1,7 @@
 import {
     createTodo,
-    deleteTodo
+    deleteTodo,
+    completeTodo
 } from "../services/todo.service.js";
 import {
     todo
@@ -18,10 +19,9 @@ export async function formController() {
     let sortSelect = document.querySelector("#sort");
     let todoDoneList = document.querySelector("#todo-done");
 
-    const renderTodos = async function () {
+    const renderTodos = async function (data) {
         let todos = {
-            todos: await fetchUnCompleted(),
-            doneTodos: await fetchCompleted()
+            todos: data,
         };
         let todoTemplate = document.querySelector("#uncompleted-todos").innerHTML;
         // eslint-disable-next-line no-undef
@@ -32,9 +32,9 @@ export async function formController() {
         setCheckboxesEventlisteners();
     };
 
-    const renderDoneTodos = async function () {
+    const renderDoneTodos = async function (data) {
         let todos = {
-            doneTodos: await fetchCompleted()
+            doneTodos: data
         };
         let doneTodoTemplate = document.querySelector("#completed-todos").innerHTML;
         // eslint-disable-next-line no-undef
@@ -91,7 +91,7 @@ export async function formController() {
 
                 //Get id of todo
                 let id = checkbox.getAttribute("id");
-                await deleteTodo(id).then(await renderTodos());
+                await deleteTodo(id).then(await renderTodos(await fetchUnCompleted()));
             });
         });
     };
@@ -100,7 +100,7 @@ export async function formController() {
         let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
         /*6. COMPLETE TODO*/
         todoCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener("click", function (event) {
+            checkbox.addEventListener("click", async function (event) {
 
                 //Stop propagation of event so that todoItem click events isn't triggered
                 event.stopPropagation();
@@ -108,20 +108,16 @@ export async function formController() {
                 //Get id of todo
                 let id = event.currentTarget.getAttribute("id");
 
-                //Create invisible form with complette action
-                let form = createForm("id", id, "/complete");
-
-                //Submit to backend for completion
-                form.submit();
+                await completeTodo(id).then(await renderTodos(await fetchUnCompleted()),(await renderDoneTodos(await fetchCompleted())));
             });
         });
     };
 
-    await renderTodos();
-    await renderDoneTodos();
+    await renderTodos(await fetchUnCompleted());
+    await renderDoneTodos(await fetchCompleted());
 
 
-    /*1. METHODS*/
+    /*1. MISC METHODS*/
 
     //Method to toggle form for updating and creating todos
     function toggleForm() {
@@ -191,7 +187,7 @@ export async function formController() {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        await createTodo(setTodo()).then(await renderTodos());
+        await createTodo(setTodo()).then(await renderTodos(await fetchUnCompleted()));
         toggleForm();
     });
 
@@ -207,9 +203,6 @@ export async function formController() {
     in order to close form on click
     */
     bgOverlay.addEventListener("click", toggleForm);
-
-
-
 
 
     /*7. SORT TODOS*/

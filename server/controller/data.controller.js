@@ -15,14 +15,12 @@ async function fetchCompleted(req, res) {
 }
 
 async function remove(req, res) {
-    await removeTodo(req.params.id);
-    res.status(200);
+    await removeTodo(req.params.id).then(res.status(200));
 }
 
 async function update(req, res) {
     let todo = req.body;
-
-    res.json((await updateTodo(req.params.id, todo)));
+    await updateTodo(req.params.id, todo).then(res.status(200));
 }
 
 const create = async (req, res) => {
@@ -31,7 +29,7 @@ const create = async (req, res) => {
 };
 
 async function complete(req, res) {
-    res.json((await completeTodo(req.params.id)));
+    await completeTodo(req.params.id).then(res.status(200));
 }
 
 export {
