@@ -8,7 +8,6 @@
     "start": "nodemon ./server/server.js",
     "eslint": "npx eslint ./public/js/*/*.js",
     "alltests": "npm run stylelint && npm run w3c && npm run eslint && node -e \"console.log('npm run all tests completed.')\"",
-    "stylelint": "npx stylelint \"public/assets/css/*.css\"",
     "w3c": "html-validator --file public/index.html --verbose"
   },
   "repository": {
@@ -30,11 +29,6 @@
   "devDependencies": {
     "eslint": "^8.18.0",
     "html-validator-cli": "^7.0.1",
-    "nodemon": "^2.0.16",
-    "postcss": "^8.4.14",
-    "prettier": "^2.7.1",
-    "stylelint": "^14.9.1",
-    "stylelint-config-standard": "^26.0.0",
-    "stylelint-prettier": "^2.0.0"
+    "nodemon": "^2.0.16"
   }
 }
