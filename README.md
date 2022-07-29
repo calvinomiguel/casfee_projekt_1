@@ -6,12 +6,6 @@
 npm install
 ```
 
-## Create folder for NeDB
-
-```
-Create folder in root directory and name it db
-```
-
 ### Compiles for development
 
 ```
@@ -21,11 +15,17 @@ npm start
 ### Run ESLint
 
 ```
-npx eslint yourfile.js
+npm run eslint
 ```
 
-### Run style ling
+### Run stylelint
 
 ```
-npm run lint-css
+npm run stylelint
+```
+
+### Run html-validato
+
+```
+npm run w3c
 ```
