@@ -155,7 +155,6 @@ export async function todoController() {
         });
     };
 
-
     //Method to set values to form
     const setFormFieldsValues = function (id, title, description, priority, dueDate) {
         form.querySelector("#todo-id").value = id;
@@ -163,18 +162,6 @@ export async function todoController() {
         form.querySelector("#description").value = description;
         form.querySelector("#priority").value = priority;
         form.querySelector("#duedate").value = dueDate;
-    };
-
-
-    /*Method to transform date value from data-date attribute
-    into a value that can be accepted by an input type date
-    */
-    const transformDate = function (date) {
-        let d = new Date(parseInt(date));
-        let month = (d.getMonth() + 1).toString().padStart(2, "0");
-        let day = d.getDate().toString().padStart(2, "0");
-        let year = d.getFullYear();
-        return `${year}-${month}-${day}`;
     };
 
     //Render todos upon DOM rendering
