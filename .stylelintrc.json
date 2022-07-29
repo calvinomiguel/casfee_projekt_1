@@ -2,9 +2,6 @@
     "extends": [
         "stylelint-config-standard"
     ],
-    "plugins": [
-        "stylelint-prettier"
-    ],
     "rules": {
         "block-closing-brace-newline-after": "always-multi-line",
         "block-closing-brace-empty-line-before": "never",

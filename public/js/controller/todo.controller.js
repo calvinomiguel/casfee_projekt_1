@@ -94,7 +94,7 @@ export async function todoController() {
                     let priority = item.querySelector(".todo-priority") ? item.querySelector(".todo-priority").innerText : "Priority";
 
                     //In case user doesn't set due-date
-                    let dueDate = item.querySelector(".todo-duedate") ? transformDate(item.querySelector(".todo-duedate").getAttribute("data-date")) : "";
+                    let dueDate = item.querySelector(".todo-duedate") ? item.querySelector(".todo-duedate").getAttribute("data-date") : "";
                     let id = item.querySelector(".todo-checkbox").getAttribute("id");
 
                     //Populate form with data
